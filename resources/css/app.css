@@ -5,7 +5,9 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@theme {
+:root {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css']);
