@@ -24,7 +24,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer">
         @stack("styles")
     </head>
-    <body class="gradient-bg">
+<body class="gradient-bg">
   <svg class="d-none">
     <symbol id="icon_nav" viewBox="0 0 25 18">
       <rect width="25" height="2" />

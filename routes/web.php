@@ -12,7 +12,7 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [UserController::class, 'index'])->name('user.index'); 
+    Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index'); 
 });
 
 Route::middleware(['auth',AuthAdmin::class])->group(function () {
