@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use App\Services\RoleServiceprovider;
 use App\Models\User;
 use App\Models\Role;    
+use App\Models\Category;
 use App\Models\Brand;
 use Itervention\Image\Facades\Image;
 
@@ -52,13 +53,14 @@ class AdminController extends Controller
         $brand->name = $request->name;
 
         if ($request->hasFile('image')) {
+            // Delete the old image if it exists
             if (File::exists(public_path('uploads/brands/' . $brand->image))) {
                 File::delete(public_path('uploads/brands/' . $brand->image));
             }
 
             $image = $request->file('image');
-            $fileName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/brands'), $fileName);
+            $fileName = time() . '.' . $image->getClientOriginalExtension(); // Correct method
+            $image->move(public_path('uploads/brands'), $fileName); // Move the file
             $brand->image = $fileName;
         }
 
@@ -77,20 +79,18 @@ class AdminController extends Controller
         $brand = new Brand();
         $brand->name = $request->name;
 
-
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $fileName = $image->file('image')->extendsion();
-            $fileExtension = $request->getClientOriginalExtension();
-            $image->move(public_path('uploads/brands'), $fileName);
-            $this->GenarateThumbnailImage($fileName, $image);
+            $fileName = time() . '.' . $image->getClientOriginalExtension(); // Correct method
+            $image->move(public_path('uploads/brands'), $fileName); // Move the file
             $brand->image = $fileName;
-        
+        }
 
         $brand->save();
 
         return redirect()->route('admin.brands')->with('success', 'Brand created successfully!');
-
     }
+
     public function GenarateThumbnailImage($fileName, $image)
     {
         $thumbnailPath = public_path('uploads/brands/thumbnails/' . $fileName);
@@ -113,5 +113,84 @@ class AdminController extends Controller
 
         return redirect()->route('admin.brands')->with('success', 'Brand deleted successfully!');
     }
+
+    public function categories()
+    {
+        $categories = Category::paginate(10); // Paginate with 10 items per page
+        return view('admin.categories', compact('categories'));
+    }
+
+    public function create_Category()
+    {
+        return view('admin.category-create');
+    }
+    public function edit_Category($id)
+    {
+        $category = Category::findOrFail($id); // Retrieve the category by ID
+        return view('admin.category-edit', compact('category')); // Pass the $category variable to the view
+    }
+    public function update_Category(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $category = Category::findOrFail($request->id);
+        $category->name = $request->name;
+
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if (File::exists(public_path('uploads/categories/' . $category->image))) {
+                File::delete(public_path('uploads/categories/' . $category->image));
+            }
+
+            $image = $request->file('image');
+            $fileName = time() . '.' . $image->getClientOriginalExtension(); // Correct method
+            $image->move(public_path('uploads/categories'), $fileName); // Move the file
+            $category->image = $fileName;
+        }
+
+        $category->save();
+
+        return redirect()->route('admin.categories')->with('success', 'Category updated successfully!');
+    }
+
+    public function store_Category(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $category = new Category();
+        $category->name = $request->name;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = time() . '.' . $image->getClientOriginalExtension(); // Correct method
+            $image->move(public_path('uploads/categories'), $fileName); // Move the file
+            $category->image = $fileName;
+        }
+
+        $category->save();
+
+        return redirect()->route('admin.categories')->with('success', 'Category created successfully!');
+    }
+    public function delete_Category($id)
+    {
+        $category = Category::findOrFail($id);
+
+        // Delete the image file if it exists
+        if (File::exists(public_path('uploads/categories/' . $category->image))) {
+            File::delete(public_path('uploads/categories/' . $category->image));
+        }
+
+        // Delete the category record
+        $category->delete();
+
+        return redirect()->route('admin.categories')->with('success', 'Category deleted successfully!');
+    }
+    
 
 }

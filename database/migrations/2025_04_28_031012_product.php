@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('amount')->default(1);
             $table->string('image_url')->nullable();
             $table->timestamps();
-            $foreignKey = $table->foreignId('product_category_id')->constrained('product_category')->onDelete('cascade');
+            $foreignKey = $table->foreignId('categories_id')->constrained('categories')->onDelete('cascade');
             $foreignKey = $table->foreignId('product_brand_id')->constrained('brands')->onDelete('cascade');
             $foreignKey = $table->foreignId('product_detail_id')->constrained('product_detail')->onDelete('cascade');
         });
