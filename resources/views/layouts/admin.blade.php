@@ -65,6 +65,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
+<<<<<<< HEAD
                                             <a href="add-product.html" class="">
                                                 <div class="text">Thêm Sản Phẩm</div>
                                             </a>
@@ -72,6 +73,15 @@
                                         <li class="sub-menu-item">
                                             <a href="products.html" class="">
                                                 <div class="text">Xem Sản Phẩm</div>
+=======
+                                            <a href="{{route('admin.product.create')}}" class="">
+                                                <div class="text">Add Product</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{route('admin.products')}}" class="">
+                                                <div class="text">Products</div>
+>>>>>>> 36c360371dbe14724fe388046d46b3aca1dee77a
                                             </a>
                                         </li>
                                     </ul>
