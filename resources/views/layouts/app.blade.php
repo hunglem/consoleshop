@@ -318,9 +318,6 @@
             <li class="navigation__item">
               <a href="about.html" class="navigation__link">About</a>
             </li>
-            <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
-            </li>
           </ul>
         </div>
       </div>
@@ -396,19 +393,16 @@
         <nav class="navigation">
           <ul class="navigation__list list-unstyled d-flex">
             <li class="navigation__item">
-              <a href="index.html" class="navigation__link">Home</a>
+              <a href="index.html" class="navigation__link">Trang Chủ</a>
             </li>
             <li class="navigation__item">
-              <a href="shop.html" class="navigation__link">Shop</a>
+              <a href="shop.html" class="navigation__link">Cửa Hàng</a>
             </li>
             <li class="navigation__item">
-              <a href="cart.html" class="navigation__link">Cart</a>
+              <a href="cart.html" class="navigation__link">Giỏ Hàng</a>
             </li>
             <li class="navigation__item">
-              <a href="about.html" class="navigation__link">About</a>
-            </li>
-            <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
+              <a href="about.html" class="navigation__link">Thông Tin Cửa Hàng</a>
             </li>
           </ul>
         </nav>
@@ -590,7 +584,6 @@
             <li class="sub-menu__item"><a href="store_location.html" class="menu-link menu-link_us-s">Find a Store</a>
             </li>
             <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Legal & Privacy</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Gift Card</a></li>
           </ul>
         </div>
 
