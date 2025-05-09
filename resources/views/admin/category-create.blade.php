@@ -74,7 +74,8 @@
                 const photoInp = $('#myFile');
                 const [file]= this.files[0];
                 if (file) {
-                    $('#imgpreview').attr('src', URL.createObjectURL(file)).fadeIn(1000);
+                    $('#imgpreview').attr('src', URL.createObjectURL(file));
+                    $('#imgpreview').show();
             }
         });
            

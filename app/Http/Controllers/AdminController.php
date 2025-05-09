@@ -14,6 +14,7 @@ use App\Models\Role;
 use App\Models\Category;
 use App\Models\Brand;
 use Itervention\Image\Facades\Image;
+use App\Models\Product;
 
 
 
@@ -192,5 +193,68 @@ class AdminController extends Controller
         return redirect()->route('admin.categories')->with('success', 'Category deleted successfully!');
     }
     
+    public function products()
+    {
+        $products = Product::orderBy('created_at', 'desc')->paginate(10); // Paginate with 10 items per page
+        return view('admin.products', compact('products'));
+    }
 
+    public function create_Product()
+    {
+        $categories = Category::all(); // Get all categories
+        $brands = Brand::all(); // Get all brands
+        return view('admin.product-create', compact('categories', 'brands'));
+    }
+
+    public function store_Product(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'slug' => 'required|string|max:255|unique:products,slug',
+            'price' => 'required|numeric|min:0',
+            'status' => 'required|in:còn hàng,hết hàng',
+            'is_featured' => 'boolean',
+            'processor_info' => 'nullable|string',
+            'amount' => 'required|integer|min:1',
+            'image_name' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+        ]);
+
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->slug = Str::slug($request->slug);
+        $product->price = $request->price;
+        $product->status = $request->status;
+        $product->is_featured = $request->is_featured;
+        $product->processor_info = $request->processor_info;
+        $product->amount = $request->amount;
+
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+        ]);
+        $request->validate([
+            'brand_id' => 'required|exists:brands,id',
+        ]);
+
+        dd($request->all());
+
+        if ($request->hasFile('image_name')) {
+            $image = $request->file('image_name');
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/products'), $fileName);
+            $product->image_name = $fileName;
+        }
+
+        $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
+
+        if ($product->save()) {
+            return redirect()->route('admin.products')->with('success', 'Product created successfully!');
+        } else {
+            return redirect()->back()->with('error', 'Failed to create product!');
+        }
+    }
 }
