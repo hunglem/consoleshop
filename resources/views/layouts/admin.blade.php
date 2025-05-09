@@ -36,10 +36,11 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
-                        <a href="{{route('admin.index') }}"  id="site-logo-inner">
-                            <img class="" id="logo_header" alt="" src="{{asset('images/logo.png') }}"
-                                data-light="{{asset('images/logo.png') }}" data-dark="{{asset('images/logo.png') }}">
-                        </a>
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="{{asset ('assets/images/logos/logo.png') }}" alt="Uomo" class="logo__image d-block" />
+                            </a>
+                        </div>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
                         </div>
@@ -138,13 +139,6 @@
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="coupons.html" class="">
-                                        <div class="icon"><i class="icon-grid"></i></div>
-                                        <div class="text">Coupns</div>
-                                    </a>
-                                </li>
-
-                                <li class="menu-item">
                                     <a href="users.html" class="">
                                         <div class="icon"><i class="icon-user"></i></div>
                                         <div class="text">Người Dùng</div>
@@ -177,9 +171,9 @@
                         <div class="wrap">
                             <div class="header-left">
                                 <a href="index-2.html">
-                                    <img class="" id="logo_header_mobile" alt="" src="images/logo/logo.png"
-                                        data-light="images/logo/logo.png" data-dark="images/logo/logo.png"
-                                        data-width="154px" data-height="52px" data-retina="images/logo/logo.png">
+                                    <img class="" id="hheader_mobile" alt="" src="images/logo.png"
+                                        data-light="images/logo.png" data-dark="images/logo.png"
+                                        data-width="154px" data-height="52px" data-retina="images/logo.png">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>
