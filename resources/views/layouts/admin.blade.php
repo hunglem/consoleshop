@@ -37,8 +37,8 @@
                 <div class="section-menu-left">
                     <div class="box-logo">
                         <a href="{{route('admin.index') }}"  id="site-logo-inner">
-                            <img class="" id="logo_header" alt="" src="{{asset('images/logo/logo.png') }}"
-                                data-light="{{asset('images/logo/logo.png') }}" data-dark="{{asset('images/logo/logo.png') }}">
+                            <img class="" id="logo_header" alt="" src="{{asset('images/logo.png') }}"
+                                data-light="{{asset('images/logo.png') }}" data-dark="{{asset('images/logo.png') }}">
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="center">
                         <div class="center-item">
-                            <div class="center-heading">Main H"index.html"ome</div>
+                            <div class="center-heading">Main Home</div>
                             <ul class="menu-list">
                                 <li class="menu-item">
                                     <a href="{{route('admin.index') }}" class="">
@@ -65,23 +65,13 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-<<<<<<< HEAD
-                                            <a href="add-product.html" class="">
+                                            <a href="{{route('admin.product.create')}}" class="">
                                                 <div class="text">Thêm Sản Phẩm</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="products.html" class="">
-                                                <div class="text">Xem Sản Phẩm</div>
-=======
-                                            <a href="{{route('admin.product.create')}}" class="">
-                                                <div class="text">Add Product</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
                                             <a href="{{route('admin.products')}}" class="">
-                                                <div class="text">Products</div>
->>>>>>> 36c360371dbe14724fe388046d46b3aca1dee77a
+                                                <div class="text">Xem Sản Phẩm</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -148,13 +138,6 @@
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="coupons.html" class="">
-                                        <div class="icon"><i class="icon-grid"></i></div>
-                                        <div class="text">Coupns</div>
-                                    </a>
-                                </li>
-
-                                <li class="menu-item">
                                     <a href="users.html" class="">
                                         <div class="icon"><i class="icon-user"></i></div>
                                         <div class="text">Người Dùng</div>
@@ -187,9 +170,9 @@
                         <div class="wrap">
                             <div class="header-left">
                                 <a href="index-2.html">
-                                    <img class="" id="logo_header_mobile" alt="" src="images/logo/logo.png"
-                                        data-light="images/logo/logo.png" data-dark="images/logo/logo.png"
-                                        data-width="154px" data-height="52px" data-retina="images/logo/logo.png">
+                                    <img class="" id="hheader_mobile" alt="" src="images/logo.png"
+                                        data-light="images/logo.png" data-dark="images/logo.png"
+                                        data-width="154px" data-height="52px" data-retina="images/logo.png">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>
