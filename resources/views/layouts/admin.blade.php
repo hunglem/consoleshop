@@ -36,11 +36,10 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
-                        <div class="logo">
-                            <a href="index.html">
-                                <img src="{{asset ('assets/images/logos/logo.png') }}" alt="Uomo" class="logo__image d-block" />
-                            </a>
-                        </div>
+                        <a href="{{route('admin.index') }}"  id="site-logo-inner">
+                            <img class="" id="logo_header" alt="" src="{{asset('images/logo.png') }}"
+                                data-light="{{asset('images/logo.png') }}" data-dark="{{asset('images/logo.png') }}">
+                        </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
                         </div>
