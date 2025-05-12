@@ -232,15 +232,6 @@ class AdminController extends Controller
         $product->processor_info = $request->processor_info;
         $product->amount = $request->amount;
 
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-        ]);
-        $request->validate([
-            'brand_id' => 'required|exists:brands,id',
-        ]);
-
-        dd($request->all());
-
         if ($request->hasFile('image_name')) {
             $image = $request->file('image_name');
             $fileName = time() . '.' . $image->getClientOriginalExtension();

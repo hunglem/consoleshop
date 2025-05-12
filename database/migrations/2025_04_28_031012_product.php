@@ -24,10 +24,10 @@ return new class extends Migration
             $table->text('image_name')->nullable();
             $table->string('image_url')->nullable();
             $table->timestamps();
-            $table->bigInteger('category_id')->unsigned()->nullable();
-            $table->bigInteger('brand_id')->unsigned()->nullable();
-            $foreignKey = $table->foreignId('categories_id')->constrained('categories')->onDelete('cascade');
-            $foreignKey = $table->foreignId('product_brand_id')->constrained('brands')->onDelete('cascade');
+
+            // Only define foreign keys once, and do not duplicate columns
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
+            $table->foreignId('brand_id')->nullable()->constrained('brands')->onDelete('cascade');
         });
     }
 
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products'); // Ensure the table is dropped correctly
+        Schema::dropIfExists('products');
     }
 };

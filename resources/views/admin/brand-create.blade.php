@@ -68,18 +68,15 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $function(){
-            $('#myFile').change(function(e) {
-                const photoInp = $('#myFile');
-                const [file]= this.files[0];
-                if (file) {
-                    $('#imgpreview').attr('src', URL.createObjectURL(file));
-                    $('#imgpreview').show();
+<script>
+    $(function(){
+        $('#myFile').change(function(e) {
+            const [file] = this.files;
+            if (file) {
+                $('#imgpreview img').attr('src', URL.createObjectURL(file));
+                $('#imgpreview').show();
             }
         });
-           
-                
-        }
-    </script>
+    });
+</script>
 @endpush

@@ -117,7 +117,7 @@
                                                         </span>
                                                         <span class="body-text">Drop your images here or select <span
                                                                 class="tf-color">click to browse</span></span>
-                                                        <input type="file" id="myFile" name="image" accept="image/*">
+                                                        <input type="file" id="myFile" name="image_name" accept="image/*">
                                                     </label>
                                                 </div>
                                             </div>
@@ -158,7 +158,7 @@
                                                 <div class="body-title mb-10">Quantity <span
                                                         class="tf-color-1">*</span></div>
                                                 <input class="mb-10" type="text" placeholder="Enter quantity"
-                                                    name="quantity" tabindex="0" value="" aria-required="true"
+                                                    name="amount" tabindex="0" value="" aria-required="true"
                                                     required="">
                                             </fieldset>
                                             @error('quantity') <span class="text-danger">{{ $message }}</span> @enderror
@@ -169,9 +169,9 @@
                                             <fieldset class="name">
                                                 <div class="body-title mb-10">Stock</div>
                                                 <div class="select mb-10">
-                                                    <select class="" name="stock_status">
-                                                        <option value="instock">InStock</option>
-                                                        <option value="outofstock">Out of Stock</option>
+                                                    <select class="" name="status">
+                                                        <option value="còn hàng">InStock</option>
+                                                        <option value="hết hàng">Out of Stock</option>
                                                     </select>
                                                 </div>
                                             </fieldset>
@@ -179,7 +179,7 @@
                                             <fieldset class="name">
                                                 <div class="body-title mb-10">Featured</div>
                                                 <div class="select mb-10">
-                                                    <select class="" name="featured">
+                                                    <select class="" name="is_featured">
                                                         <option value="0">No</option>
                                                         <option value="1">Yes</option>
                                                     </select>
@@ -199,42 +199,42 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(function(){
-            $('#myFile').change(function(e) {
-                const photoInp = $('#myFile');
-                const [file]= this.files[0];
-                if (file) {
-                    $('#imgpreview').attr('src', URL.createObjectURL(file));
-                    $('#imgpreview').show();
-                }
-            });
-            $('#gFile').change(function(e) {
-                const galInp = $('#gFile');
-                const [file]= this.files[0];
-                $.each(gphotoInp, function(key, value) {
-                    $('#galUpload').append('<div class="item"><img src="'+URL.createObjectURL(value)+'" alt=""></div>');
-                });
-                });
-
-            
-
-                $("input[name='name']").on('keyup', function() {
-                var slug = StringToSlug($(this).val());
-                $("input[name='slug']").val(slug);
-            });
+<script>
+    $(function(){
+        // Preview main image
+        $('#myFile').change(function(e) {
+            const [file] = this.files;
+            if (file) {
+                $('#imgpreview img').attr('src', URL.createObjectURL(file));
+                $('#imgpreview').show();
+            }
         });
-            
-     
-           
-        
-        
-        $function StringToSlug(TEXT) {
+
+        // Preview gallery images
+        $('#gFile').change(function(e) {
+            $('#galUpload').empty();
+            const files = this.files;
+            if (files.length) {
+                $.each(files, function(i, file) {
+                    const img = $('<img>').attr('src', URL.createObjectURL(file)).css({width: '80px', margin: '5px'});
+                    $('#galUpload').append($('<div class="item"></div>').append(img));
+                });
+            }
+        });
+
+        // Slug generator
+        $("input[name='name']").on('keyup', function() {
+            var slug = StringToSlug($(this).val());
+            $("input[name='slug']").val(slug);
+        });
+
+        function StringToSlug(TEXT) {
             var slug = TEXT.toLowerCase();
             slug = slug.replace(/^\s+|\s+$/g, '');
             slug = slug.replace(/\s+/g, '-');
             slug = slug.replace(/[^a-z0-9\-]/g, '');
             return slug;
         }
-    </script>
+    });
+</script>
 @endpush

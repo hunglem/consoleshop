@@ -46,6 +46,7 @@
                             <th>Stock</th>
                             <th>Quantity</th>
                             <th>Processor</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -65,10 +66,11 @@
                             <td>{{ $product->price }}</td>
                             <td>{{ $product->category->name }}</td>
                             <td>{{ $product->brand->name }}</td>
-                            <td>{{ $product->featured == 0 ? "No" : "Yes" }}</td>
-                            <td>{{ $product->stock->status }}</td>
+                            <td>{{ $product->is_featured == 0 ? "No" : "Yes" }}</td>
+                            <td>{{ $product->status }}</td>
                             <td>{{ $product->amount }}</td>
                             <td>{{ $product->processor_info }}</td>
+                            <td>{{ $product->status }}</td>
                             <td>
                                 <div class="list-icon-function">
                                     <a href="#" target="_blank">
