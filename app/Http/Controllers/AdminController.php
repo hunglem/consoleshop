@@ -161,18 +161,31 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_name' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $category = new Category();
         $category->name = $request->name;
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $fileName = time() . '.' . $image->getClientOriginalExtension(); // Correct method
-            $image->move(public_path('uploads/categories'), $fileName); // Move the file
+        // Main image
+        if ($request->hasFile('image_name')) {
+            $image = $request->file('image_name');
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/categories'), $fileName);
             $category->image = $fileName;
         }
+
+        // Gallery images
+        $galleryImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $galleryImage) {
+                $galleryFileName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
+                $galleryImage->move(public_path('uploads/categories/gallery'), $galleryFileName);
+                $galleryImages[] = $galleryFileName;
+            }
+        }
+        $category->gallery_images = !empty($galleryImages) ? json_encode($galleryImages) : null;
 
         $category->save();
 
@@ -220,6 +233,7 @@ class AdminController extends Controller
             'image_name' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $product = new Product();
@@ -232,6 +246,7 @@ class AdminController extends Controller
         $product->processor_info = $request->processor_info;
         $product->amount = $request->amount;
 
+        // Main image
         if ($request->hasFile('image_name')) {
             $image = $request->file('image_name');
             $fileName = time() . '.' . $image->getClientOriginalExtension();
@@ -239,14 +254,23 @@ class AdminController extends Controller
             $product->image_name = $fileName;
         }
 
+        // Gallery images
+        $galleryImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $galleryImage) {
+                $galleryFileName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
+                $galleryImage->move(public_path('uploads/products/gallery'), $galleryFileName);
+                $galleryImages[] = $galleryFileName;
+            }
+        }
+        $product->gallery_images = !empty($galleryImages) ? json_encode($galleryImages) : null;
+
         $product->category_id = $request->category_id;
         $product->brand_id = $request->brand_id;
 
-        if ($product->save()) {
-            return redirect()->route('admin.products')->with('success', 'Product created successfully!');
-        } else {
-            return redirect()->back()->with('error', 'Failed to create product!');
-        }
+        $product->save();
+
+        return redirect()->route('admin.products')->with('success', 'Product created successfully!');
     }
 
     public function edit_Product($id)
@@ -271,6 +295,7 @@ class AdminController extends Controller
             'image_name' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $product = Product::findOrFail($id);
@@ -293,6 +318,18 @@ class AdminController extends Controller
             $fileName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/products'), $fileName);
             $product->image_name = $fileName;
+        }
+
+        // Gallery images
+        $galleryImages = [];
+        if ($request->hasFile('images')) {
+            // Optionally delete old gallery images here
+            foreach ($request->file('images') as $galleryImage) {
+                $galleryFileName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
+                $galleryImage->move(public_path('uploads/products/gallery'), $galleryFileName);
+                $galleryImages[] = $galleryFileName;
+            }
+            $product->gallery_images = json_encode($galleryImages);
         }
 
         $product->category_id = $request->category_id;

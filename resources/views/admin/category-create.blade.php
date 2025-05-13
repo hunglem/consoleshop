@@ -38,8 +38,7 @@
                                         </fieldset>
                                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                                         <fieldset>
-                                            <div class="body-title">Upload images <span class="tf-color-1">*</span>
-                                            </div>
+                                            <div class="body-title">Upload images <span class="tf-color-1">*</span> <small>(Only one image)</small></div>
                                             <div class="upload-image flex-grow">
                                                 <div class="item" id="imgpreview" style="display:none">
                                                     <img src="" class="effect8" alt="">
@@ -49,9 +48,24 @@
                                                         <span class="icon">
                                                             <i class="icon-upload-cloud"></i>
                                                         </span>
-                                                        <span class="body-text">Drop your images here or select <span
-                                                                class="tf-color">click to browse</span></span>
-                                                        <input type="file" id="myFile" name="image" accept="image/*">
+                                                        <span class="body-text">Drop your images here or select <span class="tf-color">click to browse</span></span>
+                                                        <input type="file" id="myFile" name="image_name" accept="image/*">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        @error('image_name') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <fieldset>
+                                            <div class="body-title">Upload Gallery Images <span class="tf-color-1">*</span> <small>(You can select multiple images)</small></div>
+                                            <div class="upload-image flex-grow">
+                                                <div id="gallery-preview" class="flex" style="gap:10px; margin-bottom:10px;"></div>
+                                                <div id="gal-upload-file" class="item up-load">
+                                                    <label class="uploadfile" for="gFile">
+                                                        <span class="icon">
+                                                            <i class="icon-upload-cloud"></i>
+                                                        </span>
+                                                        <span class="body-text">Drop your images here or select <span class="tf-color">click to browse</span></span>
+                                                        <input type="file" id="gFile" name="images[]" accept="image/*" multiple>
                                                     </label>
                                                 </div>
                                             </div>
@@ -75,6 +89,17 @@
             if (file) {
                 $('#imgpreview img').attr('src', URL.createObjectURL(file));
                 $('#imgpreview').show();
+            }
+        });
+
+        $('#gFile').change(function(e) {
+            $('#gallery-preview').empty();
+            const files = this.files;
+            if (files.length) {
+                $.each(files, function(i, file) {
+                    const img = $('<img>').attr('src', URL.createObjectURL(file)).css({width: '80px', margin: '5px'});
+                    $('#gallery-preview').append(img);
+                });
             }
         });
     });
