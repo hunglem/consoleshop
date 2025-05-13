@@ -11,6 +11,7 @@ use App\Http\Middleware\AuthAdmin;
 
 Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/shop', [HomeController::class, 'shop'])->name('home.shop');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index'); 
@@ -36,5 +37,8 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
     Route::get('/admin/product/create', [AdminController::class, 'create_Product'])->name('admin.product.create');
     Route::post('/admin/product/store', [AdminController::class, 'store_Product'])->name('admin.product.store');
+    Route::get('/admin/product/edit/{id}', [AdminController::class, 'edit_Product'])->name('admin.product.edit');
+    Route::put('/admin/product/update/{id}', [AdminController::class, 'update_Product'])->name('admin.product.update');
+    Route::delete('/admin/product/{id}/delete', [AdminController::class, 'delete_Product'])->name('admin.product.delete');
 });
 
