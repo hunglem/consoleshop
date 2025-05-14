@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('amount')->default(1);
             $table->text('image_name')->nullable();
             $table->string('image_url')->nullable();
+            $table->text('gallery_images')->nullable();
             $table->timestamps();
 
             // Only define foreign keys once, and do not duplicate columns

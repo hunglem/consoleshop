@@ -247,68 +247,37 @@
             }
           }'>
           <div class="swiper-wrapper">
+            @foreach ($products->where('is_featured', 1) as $product)
             <div class="swiper-slide">
-              <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
-                <div class="slide-split_text position-relative d-flex align-items-center"
-                  style="background-color: #f5e6e0;">
-                  <div class="slideshow-text container p-3 p-xl-5">
-                    <h2
-                      class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                      Women's <br /><strong>ACCESSORIES</strong></h2>
-                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the best way to
-                      update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</h6>
-                  </div>
+                <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
+                    <div class="slide-split_text position-relative d-flex align-items-center"
+                        style="background-color: #f5e6e0;">
+                        <div class="slideshow-text container p-3 p-xl-5">
+                            <h2 class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
+                                {{ $product->category->name ?? '' }}<br /><strong>{{ $product->name }}</strong>
+                            </h2>
+                            <p class="mb-0 animate animate_fade animate_btt animate_delay-5">
+                                {{ Str::limit($product->description, 100) }}
+                            </p>
+                            <a href="{{ route('shop.product_details', ['product_slug' => $product->slug]) }}" class="btn btn-primary mt-3">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slide-split_media position-relative">
+                        <div class="slideshow-bg" style="background-color: #f5e6e0;">
+                            <a href="{{ route('shop.product_details', ['product_slug' => $product->slug]) }}">
+                                <img loading="lazy"
+                                    src="{{ $product->image_name ? asset('uploads/products/' . $product->image_name) : asset('assets/images/products/product_1.jpg') }}"
+                                    width="630" height="450"
+                                    alt="{{ $product->name }}"
+                                    class="slideshow-bg__img object-fit-cover" />
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="slide-split_media position-relative">
-                  <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                    <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630" height="450"
-                      alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
-                  </div>
-                </div>
-              </div>
             </div>
-
-            <div class="swiper-slide">
-              <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
-                <div class="slide-split_text position-relative d-flex align-items-center"
-                  style="background-color: #f5e6e0;">
-                  <div class="slideshow-text container p-3 p-xl-5">
-                    <h2
-                      class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                      Women's <br /><strong>ACCESSORIES</strong></h2>
-                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the best way to
-                      update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</h6>
-                  </div>
-                </div>
-                <div class="slide-split_media position-relative">
-                  <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                    <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630" height="450"
-                      alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="slide-split h-100 d-block d-md-flex overflow-hidden">
-                <div class="slide-split_text position-relative d-flex align-items-center"
-                  style="background-color: #f5e6e0;">
-                  <div class="slideshow-text container p-3 p-xl-5">
-                    <h2
-                      class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                      Women's <br /><strong>ACCESSORIES</strong></h2>
-                    <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the best way to
-                      update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</h6>
-                  </div>
-                </div>
-                <div class="slide-split_media position-relative">
-                  <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                    <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630" height="450"
-                      alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
-                  </div>
-                </div>
-              </div>
-            </div>
+            @endforeach
           </div>
 
           <div class="container p-3 p-xl-5">

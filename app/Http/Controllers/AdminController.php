@@ -177,15 +177,7 @@ class AdminController extends Controller
         }
 
         // Gallery images
-        $galleryImages = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $galleryImage) {
-                $galleryFileName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
-                $galleryImage->move(public_path('uploads/categories/gallery'), $galleryFileName);
-                $galleryImages[] = $galleryFileName;
-            }
-        }
-        $category->gallery_images = !empty($galleryImages) ? json_encode($galleryImages) : null;
+
 
         $category->save();
 
@@ -296,6 +288,7 @@ class AdminController extends Controller
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $product = Product::findOrFail($id);
@@ -323,7 +316,6 @@ class AdminController extends Controller
         // Gallery images
         $galleryImages = [];
         if ($request->hasFile('images')) {
-            // Optionally delete old gallery images here
             foreach ($request->file('images') as $galleryImage) {
                 $galleryFileName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
                 $galleryImage->move(public_path('uploads/products/gallery'), $galleryFileName);
@@ -331,6 +323,7 @@ class AdminController extends Controller
             }
             $product->gallery_images = json_encode($galleryImages);
         }
+        
 
         $product->category_id = $request->category_id;
         $product->brand_id = $request->brand_id;

@@ -75,7 +75,7 @@
                                             @error('brand_id') <span class="text-danger">{{ $message }}</span> @enderror
                                         </div>
 
-                                        <fieldset class="shortdescription">
+                                        <fieldset class="processor_info">
                                             <div class="body-title mb-10">Processor_info <span class="tf-color-1">*</span></div>
                                             <textarea class="mb-10 ht-150" name="processor_info"
                                                 placeholder="Short Description" tabindex="0" aria-required="true"

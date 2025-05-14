@@ -80,11 +80,11 @@
                                             @error('brand_id') <span class="text-danger">{{ $message }}</span> @enderror
                                         </div>
 
-                                        <fieldset class="shortdescription">
+                                        <fieldset class="Processor_info">
                                             <div class="body-title mb-10">Processor_info <span
                                                     class="tf-color-1">*</span></div>
-                                            <textarea class="mb-10 ht-150" name="short_description"
-                                                placeholder="Short Description" tabindex="0" aria-required="true"
+                                            <textarea class="mb-10 ht-150" name="Processor_info"
+                                                placeholder="Processor_info" tabindex="0" aria-required="true"
                                                 required=""></textarea>
                                             <div class="text-tiny">Do not exceed 100 characters when entering the
                                                 product name.</div>
