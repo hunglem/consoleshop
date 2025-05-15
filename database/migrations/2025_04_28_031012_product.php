@@ -21,7 +21,9 @@ return new class extends Migration
             $table->boolean('is_featured')->default(false);
             $table->text('processor_info')->nullable();
             $table->unsignedBigInteger('amount')->default(1);
-            $table->string('image_name')->nullable(); 
+            $table->string('image_name')->nullable(); // Use string for filename
+            $table->string('image_url')->nullable(); // For external image links
+            $table->text('gallery_images')->nullable(); // JSON or comma-separated
             $table->timestamps();
 
             // Only define foreign keys once, and do not duplicate columns

@@ -66,7 +66,7 @@
             <input type="hidden" name="id" value="{{ $product->id }}">
             <input type="hidden" name="name" value="{{ $product->name }}">
             <input type="hidden" name="price" value="{{ $product->price }}">
-            <input type="hidden" name="image" value="{{ $product->image_name ? asset('uploads/products/' . $product->image_name) : asset('assets/images/products/product_0.jpg') }}">
+            <input type="hidden" name="image" value="{{ $product->image_name }}">
             <input type="hidden" name="slug" value="{{ $product->slug }}">
             <div class="product-single__addtocart">
               <div class="qty-control position-relative">

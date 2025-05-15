@@ -22,6 +22,7 @@ Route::put('/cart/update/{rowId}', [CartController::class, 'update'])->name('car
 Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove'])->name('cart.remove');
 
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/checkout', [CartController::class, 'placeOrder'])->name('order.place');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index'); 

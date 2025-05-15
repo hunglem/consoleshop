@@ -156,9 +156,18 @@
                                 src="{{ $product->image_name ? asset('uploads/products/' . $product->image_name) : asset('assets/images/products/product_1.jpg') }}"
                                 width="330" height="400" alt="{{ $product->name }}" class="pc__img">
                         </a>
-                        <button
-                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart "
-                            data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                        <form method="post" action="{{ route('cart.add') }}" style="display:inline;">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $product->id }}">
+                            <input type="hidden" name="name" value="{{ $product->name }}">
+                            <input type="hidden" name="price" value="{{ $product->price }}">
+                            <input type="hidden" name="image" value="{{ $product->image_name }}">
+                            <input type="hidden" name="slug" value="{{ $product->slug }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit"
+                                class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart"
+                                data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                        </form>
                     </div>
                     <div class="pc__info position-relative" href="{{ $product->slug ? route('shop.product_details', ['product_slug' => $product->slug]) : '#' }}">
                         <p class="pc__category">{{ $product->category->name ?? '' }}</p>
