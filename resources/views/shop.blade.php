@@ -17,215 +17,43 @@
               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
                 data-bs-target="#accordion-filter-1" aria-expanded="true" aria-controls="accordion-filter-1">
                 Product Categories
-                <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                  <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                    <path
-                      d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                  </g>
-                </svg>
+                <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg"></svg>
               </button>
             </h5>
-            <div id="accordion-filter-1" class="accordion-collapse collapse show border-0"
-              aria-labelledby="accordion-heading-1" data-bs-parent="#categories-list">
-              <div class="accordion-body px-0 pb-0 pt-3">
-                <ul class="list list-inline mb-0">
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Dresses</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Shorts</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Sweatshirts</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Swimwear</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jackets</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">T-Shirts & Tops</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jeans</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Trousers</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Men</a>
-                  </li>
-                  <li class="list-item">
-                    <a href="#" class="menu-link py-1">Jumpers & Cardigans</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+            <div id="accordion-filter-1" class="accordion-collapse collapse show" aria-labelledby="accordion-heading-1" data-bs-parent="#categories-list">
+              <div class="accordion-body p-0 pt-3">
+                <form method="GET" action="{{ route('shop.index') }}" id="shopFilterForm">
+                  <select name="category" class="form-select mb-2" onchange="document.getElementById('shopFilterForm').submit()">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $category)
+                      <option value="{{ $category->id }}" {{ request()->get('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    @endforeach
+                  </select>
 
+                  <select name="brand" class="form-select mb-2" onchange="document.getElementById('shopFilterForm').submit()">
+                    <option value="">All Brands</option>
+                    @foreach($brands as $brand)
+                      <option value="{{ $brand->id }}" {{ request()->get('brand') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
+                    @endforeach
+                  </select>
 
-        <div class="accordion" id="color-filters">
-          <div class="accordion-item mb-4 pb-3">
-            <h5 class="accordion-header" id="accordion-heading-1">
-              <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
-                data-bs-target="#accordion-filter-2" aria-expanded="true" aria-controls="accordion-filter-2">
-                Color
-                <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                  <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                    <path
-                      d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                  </g>
-                </svg>
-              </button>
-            </h5>
-            <div id="accordion-filter-2" class="accordion-collapse collapse show border-0"
-              aria-labelledby="accordion-heading-1" data-bs-parent="#color-filters">
-              <div class="accordion-body px-0 pb-0">
-                <div class="d-flex flex-wrap">
-                  <a href="#" class="swatch-color js-filter" style="color: #0a2472"></a>
-                  <a href="#" class="swatch-color js-filter" style="color: #d7bb4f"></a>
-                  <a href="#" class="swatch-color js-filter" style="color: #282828"></a>
-                  <a href="#" class="swatch-color js-filter" style="color: #b1d6e8"></a>
-                  <a href="#" class="swatch-color js-filter" style="color: #9c7539"></a>
-                  <a href="#" class="swatch-color js-filter" style="color: #d29b48"></a>
-                  <a href="#" class="swatch-color js-filter" style="color: #e6ae95"></a>
-                  <a href="#" class="swatch-color js-filter" style="color: #d76b67"></a>
-                  <a href="#" class="swatch-color swatch_active js-filter" style="color: #bababa"></a>
-                  <a href="#" class="swatch-color js-filter" style="color: #bfdcc4"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                  <div class="mb-2">
+                    <label for="min_price" class="form-label">Min Price</label>
+                    <input type="number" name="min_price" id="min_price" class="form-control" placeholder="Min" value="{{ request()->get('min_price') }}">
+                  </div>
+                  <div class="mb-2">
+                    <label for="max_price" class="form-label">Max Price</label>
+                    <input type="number" name="max_price" id="max_price" class="form-control" placeholder="Max" value="{{ request()->get('max_price') }}">
+                  </div>
 
+                  <select name="sort" class="form-select mb-2" onchange="document.getElementById('shopFilterForm').submit()">
+                    <option value="">Default Sorting</option>
+                    <option value="price_asc" {{ request()->get('sort') == 'price_asc' ? 'selected' : '' }}>Price, low to high</option>
+                    <option value="price_desc" {{ request()->get('sort') == 'price_desc' ? 'selected' : '' }}>Price, high to low</option>
+                  </select>
 
-        <div class="accordion" id="size-filters">
-          <div class="accordion-item mb-4 pb-3">
-            <h5 class="accordion-header" id="accordion-heading-size">
-              <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
-                data-bs-target="#accordion-filter-size" aria-expanded="true" aria-controls="accordion-filter-size">
-                Sizes
-                <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                  <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                    <path
-                      d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                  </g>
-                </svg>
-              </button>
-            </h5>
-            <div id="accordion-filter-size" class="accordion-collapse collapse show border-0"
-              aria-labelledby="accordion-heading-size" data-bs-parent="#size-filters">
-              <div class="accordion-body px-0 pb-0">
-                <div class="d-flex flex-wrap">
-                  <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XS</a>
-                  <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">S</a>
-                  <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">M</a>
-                  <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">L</a>
-                  <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XL</a>
-                  <a href="#" class="swatch-size btn btn-sm btn-outline-light mb-3 me-3 js-filter">XXL</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="accordion" id="brand-filters">
-          <div class="accordion-item mb-4 pb-3">
-            <h5 class="accordion-header" id="accordion-heading-brand">
-              <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
-                data-bs-target="#accordion-filter-brand" aria-expanded="true" aria-controls="accordion-filter-brand">
-                Brands
-                <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                  <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                    <path
-                      d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                  </g>
-                </svg>
-              </button>
-            </h5>
-            <div id="accordion-filter-brand" class="accordion-collapse collapse show border-0"
-              aria-labelledby="accordion-heading-brand" data-bs-parent="#brand-filters">
-              <div class="search-field multi-select accordion-body px-0 pb-0">
-                <select class="d-none" multiple name="total-numbers-list">
-                  <option value="1">Adidas</option>
-                  <option value="2">Balmain</option>
-                  <option value="3">Balenciaga</option>
-                  <option value="4">Burberry</option>
-                  <option value="5">Kenzo</option>
-                  <option value="5">Givenchy</option>
-                  <option value="5">Zara</option>
-                </select>
-                <div class="search-field__input-wrapper mb-3">
-                  <input type="text" name="search_text"
-                    class="search-field__input form-control form-control-sm border-light border-2"
-                    placeholder="Search" />
-                </div>
-                <ul class="multi-select__list list-unstyled">
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Adidas</span>
-                    <span class="text-secondary">2</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Balmain</span>
-                    <span class="text-secondary">7</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Balenciaga</span>
-                    <span class="text-secondary">10</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Burberry</span>
-                    <span class="text-secondary">39</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Kenzo</span>
-                    <span class="text-secondary">95</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Givenchy</span>
-                    <span class="text-secondary">1092</span>
-                  </li>
-                  <li class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                    <span class="me-auto">Zara</span>
-                    <span class="text-secondary">48</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="accordion" id="price-filters">
-          <div class="accordion-item mb-4">
-            <h5 class="accordion-header mb-2" id="accordion-heading-price">
-              <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
-                data-bs-target="#accordion-filter-price" aria-expanded="true" aria-controls="accordion-filter-price">
-                Price
-                <svg class="accordion-button__icon type2" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
-                  <g aria-hidden="true" stroke="none" fill-rule="evenodd">
-                    <path
-                      d="M5.35668 0.159286C5.16235 -0.053094 4.83769 -0.0530941 4.64287 0.159286L0.147611 5.05963C-0.0492049 5.27473 -0.049205 5.62357 0.147611 5.83813C0.344427 6.05323 0.664108 6.05323 0.860924 5.83813L5 1.32706L9.13858 5.83867C9.33589 6.05378 9.65507 6.05378 9.85239 5.83867C10.0492 5.62357 10.0492 5.27473 9.85239 5.06018L5.35668 0.159286Z" />
-                  </g>
-                </svg>
-              </button>
-            </h5>
-            <div id="accordion-filter-price" class="accordion-collapse collapse show border-0"
-              aria-labelledby="accordion-heading-price" data-bs-parent="#price-filters">
-              <input class="price-range-slider" type="text" name="price_range" value="" data-slider-min="10"
-                data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]" data-currency="$" />
-              <div class="price-range__info d-flex align-items-center mt-2">
-                <div class="me-auto">
-                  <span class="text-secondary">Min Price: </span>
-                  <span class="price-range__min">$250</span>
-                </div>
-                <div>
-                  <span class="text-secondary">Max Price: </span>
-                  <span class="price-range__max">$450</span>
-                </div>
+                  <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                </form>
               </div>
             </div>
           </div>
@@ -296,19 +124,7 @@
           </div>
 
           <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-            <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items"
-              name="total-number">
-              <option selected>Default Sorting</option>
-              <option value="1">Featured</option>
-              <option value="2">Best selling</option>
-              <option value="3">Alphabetically, A-Z</option>
-              <option value="3">Alphabetically, Z-A</option>
-              <option value="3">Price, low to high</option>
-              <option value="3">Price, high to low</option>
-              <option value="3">Date, old to new</option>
-              <option value="3">Date, new to old</option>
-            </select>
-
+            
             <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
 
             <div class="col-size align-items-center order-1 d-none d-lg-flex">
