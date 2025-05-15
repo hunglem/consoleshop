@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->id();
-            $table->string('status')->unique();
-            $table->timestamp('order_date_shipped');
-            $table->timestamp('order_date_received')->nullable();
+            $table->enum('status', ['order', 'delivered', 'cancelled'])->default('order');
+            $table->string('shipping_address');
+            $table->string('shipping_phone');
+            $table->string('shipping_email')->nullable();
+            $table->string('shipping_name');
+            $table->string('shipping_note')->nullable();
+            $table->date('deliver_date')->nullable();
+            $table->date('cancel_date')->nullable();
+            $table->timestamps();
             $foreignKey = $table->foreignId('users_id')->constrained('users')->onDelete('cascade');
-            $foreignKey = $table->foreignId('payment_id')->constrained('payment')->onDelete('cascade')->unique();
         });
     }
 

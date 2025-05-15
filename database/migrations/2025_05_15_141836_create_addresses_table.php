@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->integer('amount')->default(0);
-            $table->enum('payment_method', ['Credit Card', 'Bank Transfer', 'Cash']);
-            $table->enum('payment_status', ['Pending', 'Completed', 'Failed', 'Refunded']);
+            $table->string('name');
+            $table->string('phone');
+            $table->string('address');
+            $table->string('type')->default('home'); 
             $table->timestamps();
-        });      
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        });
     }
 
     /**
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('addresses');
     }
 };

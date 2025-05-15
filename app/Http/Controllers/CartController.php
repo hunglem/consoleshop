@@ -42,4 +42,15 @@ class CartController extends Controller
         Cart::remove($rowId);
         return redirect()->route('cart.index')->with('success', 'Item removed from cart!');
     }
+
+    public function checkout()
+    {
+        if ([!Auth::check()]) 
+        {
+            return redirect()->route('login')->with('error', 'Please login to proceed to checkout.');
+        } 
+        $address = Address::where('user_id', Auth::id())->get();
+        return view('checkout', compact('address'));    
+        
+    }
 }

@@ -16,8 +16,6 @@ class Product extends Model
         'processor_info',
         'amount',
         'image_name',
-        'image_url',
-        'gallery_images',
         'category_id',
         'brand_id',
     ];
