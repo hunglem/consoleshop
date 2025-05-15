@@ -259,14 +259,14 @@
                             <p class="mb-0 animate animate_fade animate_btt animate_delay-5">
                                 {{ Str::limit($product->description, 100) }}
                             </p>
-                            <a href="{{ route('shop.product_details', ['product_slug' => $product->slug]) }}" class="btn btn-primary mt-3">
+                            <a href="{{ $product->slug ? route('shop.product_details', ['product_slug' => $product->slug]) : '#' }}" class="btn btn-primary mt-3">
                                 View Details
                             </a>
                         </div>
                     </div>
                     <div class="slide-split_media position-relative">
                         <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                            <a href="{{ route('shop.product_details', ['product_slug' => $product->slug]) }}">
+                            <a href="{{ $product->slug ? route('shop.product_details', ['product_slug' => $product->slug]) : '#' }}">
                                 <img loading="lazy"
                                     src="{{ $product->image_name ? asset('uploads/products/' . $product->image_name) : asset('assets/images/products/product_1.jpg') }}"
                                     width="630" height="450"
@@ -335,7 +335,7 @@
             <div class="product-card-wrapper">
                 <div class="product-card mb-3 mb-md-4 mb-xxl-5">
                     <div class="pc__img-wrapper">
-                        <a href="{{route('shop.product_details', ['product_slug' => $product->slug])}}">
+                        <a href="{{ $product->slug ? route('shop.product_details', ['product_slug' => $product->slug]) : '#' }}">
                             <img loading="lazy"
                                 src="{{ $product->image_name ? asset('uploads/products/' . $product->image_name) : asset('assets/images/products/product_1.jpg') }}"
                                 width="330" height="400" alt="{{ $product->name }}" class="pc__img">
@@ -344,9 +344,9 @@
                             class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
                             data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                     </div>
-                    <div class="pc__info position-relative" href="{{route('shop.product_details', ['product_slug' => $product->slug])}}">
+                    <div class="pc__info position-relative" href="{{ $product->slug ? route('shop.product_details', ['product_slug' => $product->slug]) : '#' }}">
                         <p class="pc__category">{{ $product->category->name ?? '' }}</p>
-                        <h6 class="pc__title"><a href="#">{{ $product->name }}</a></h6>
+                        <h6 class="pc__title"><a href="{{ $product->slug ? route('shop.product_details', ['product_slug' => $product->slug]) : '#' }}">{{ $product->name }}</a></h6>
                         <div class="product-card__price d-flex">
                             <span class="money price">${{ number_format($product->price, 2) }}</span>
                         </div>

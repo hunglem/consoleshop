@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="wg-box">
                                         <fieldset>
-                                            <div class="body-title">Upload images <span class="tf-color-1">*</span></div>
+                                            <div class="body-title">Upload image <span class="tf-color-1">*</span></div>
                                             <div class="upload-image flex-grow">
                                                 @if($product->image_name)
                                                 <div class="item" id="imgpreview">
@@ -110,29 +110,13 @@
                                                         <span class="icon">
                                                             <i class="icon-upload-cloud"></i>
                                                         </span>
-                                                        <span class="body-text">Drop your images here or select <span class="tf-color">click to browse</span></span>
+                                                        <span class="body-text">Drop your image here or <span class="tf-color">click to browse</span></span>
                                                         <input type="file" id="myFile" name="image_name" accept="image/*">
                                                     </label>
                                                 </div>
                                             </div>
                                         </fieldset>
-                                        @error('image') <span class="text-danger">{{ $message }}</span> @enderror
-
-                                        <fieldset>
-                                            <div class="body-title mb-10">Upload Gallery Images</div>
-                                            <div class="upload-image mb-16">
-                                                <div id="galUpload" class="item up-load">
-                                                    <label class="uploadfile" for="gFile">
-                                                        <span class="icon">
-                                                            <i class="icon-upload-cloud"></i>
-                                                        </span>
-                                                        <span class="text-tiny">Drop your images here or select <span class="tf-color">click to browse</span></span>
-                                                        <input type="file" id="gFile" name="images[]" accept="image/*" multiple="">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                        @error('images') <span class="text-danger">{{ $message }}</span> @enderror
+                                        @error('image_name') <span class="text-danger">{{ $message }}</span> @enderror
 
                                         <div class="cols gap22">
                                             <fieldset class="name">
@@ -187,24 +171,12 @@
 @push('scripts')
 <script>
     $(function(){
-        // Preview main image
+        // Preview main image only
         $('#myFile').change(function(e) {
             const [file] = this.files;
             if (file) {
                 $('#imgpreview img').attr('src', URL.createObjectURL(file));
                 $('#imgpreview').show();
-            }
-        });
-
-        // Preview gallery images
-        $('#gFile').change(function(e) {
-            $('#galUpload').empty();
-            const files = this.files;
-            if (files.length) {
-                $.each(files, function(i, file) {
-                    const img = $('<img>').attr('src', URL.createObjectURL(file)).css({width: '80px', margin: '5px'});
-                    $('#galUpload').append($('<div class="item"></div>').append(img));
-                });
             }
         });
 

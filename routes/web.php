@@ -18,6 +18,8 @@ Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::put('/cart/update/{rowId}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{rowId}', [CartController::class, 'remove'])->name('cart.remove');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index'); 

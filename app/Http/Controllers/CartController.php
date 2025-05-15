@@ -20,7 +20,7 @@ class CartController extends Controller
             'id' => $request->id,
             'name' => $request->name,
             'price' => $request->price,
-            'quantity' => $request->quantity ?? 1,
+            'qty' => $request->quantity ?? 1, // changed from 'quantity' to 'qty'
             'attributes' => [
                 'image' => $request->image,
                 'slug' => $request->slug,
@@ -30,15 +30,16 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Item added to cart!');
     }
 
-    public function remove($id)
+    public function update(Request $request, $rowId)
     {
-        Cart::remove($id);
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart!');
+        $quantity = $request->input('quantity', 1);
+        Cart::update($rowId, $quantity);
+        return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
     }
 
-    public function clear()
+    public function remove($rowId)
     {
-        Cart::clear();
-        return redirect()->route('cart.index')->with('success', 'Cart cleared!');
+        Cart::remove($rowId);
+        return redirect()->route('cart.index')->with('success', 'Item removed from cart!');
     }
 }

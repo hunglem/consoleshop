@@ -48,21 +48,29 @@
                 @endphp
                 @forelse($cartItems as $item)
                   @php
-                    $itemSubtotal = $item->price * $item->quantity;
+                    $itemSubtotal = $item->price * $item->qty;
                     $subtotal += $itemSubtotal;
+                    $slug = $item->attributes && isset($item->attributes->slug) ? $item->attributes->slug : null;
+                    // Use uploaded product image if available, else fallback
+                    if ($item->attributes && isset($item->attributes->image) && !empty($item->attributes->image)) {
+                        // If image is already a full URL (starts with http), use as is
+                        $image = (str_starts_with($item->attributes->image, 'http')) ? $item->attributes->image : asset('uploads/products/' . basename($item->attributes->image));
+                    } else {
+                        $image = asset('assets/images/cart-item-1.jpg');
+                    }
                   @endphp
                   <tr>
                     <td>
                       <div class="shopping-cart__product-item">
-                        <a href="{{ route('shop.product_details', $item->attributes->slug ?? '') }}">
-                          <img loading="lazy" src="{{ $item->attributes->image ?? asset('assets/images/cart-item-1.jpg') }}" width="120" height="120" alt="" />
+                        <a href="{{ $slug ? route('shop.product_details', ['product_slug' => $slug]) : '#' }}">
+                          <img loading="lazy" src="{{ $image }}" width="120" height="120" alt="{{ $item->name }}" />
                         </a>
                       </div>
                     </td>
                     <td>
                       <div class="shopping-cart__product-item__detail">
                         <h4>
-                          <a href="{{ route('shop.product_details', $item->attributes->slug ?? '') }}">
+                          <a href="{{ $slug ? route('shop.product_details', ['product_slug' => $slug]) : '#' }}">
                             {{ $item->name }}
                           </a>
                         </h4>
@@ -74,10 +82,10 @@
                     </td>
                     <td>
                       <div class="qty-control position-relative">
-                        <form action="{{ route('cart.update', $item->id) }}" method="post" style="display:inline-flex;">
+                        <form action="{{ route('cart.update', $item->rowId) }}" method="post" style="display:inline-flex;">
                           @csrf
                           @method('PUT')
-                          <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="qty-control__number text-center" style="width:60px;">
+                          <input type="number" name="quantity" value="{{ $item->qty }}" min="1" class="qty-control__number text-center" style="width:60px;">
                           <button type="submit" class="btn btn-sm btn-light ms-2">Update</button>
                         </form>
                       </div>
@@ -86,7 +94,7 @@
                       <span class="shopping-cart__subtotal">${{ number_format($itemSubtotal, 2) }}</span>
                     </td>
                     <td>
-                      <form action="{{ route('cart.remove', $item->id) }}" method="post">
+                      <form action="{{ route('cart.remove', $item->rowId) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="remove-cart btn btn-link p-0">

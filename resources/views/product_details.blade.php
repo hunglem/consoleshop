@@ -24,12 +24,12 @@
                       @endforeach
                   @endif
                 </div>
-                <div class="swiper-button-prev"><svg width="7" height="11" viewBox="0 0 7 11"
-                    xmlns="http://www.w3.org/2000/svg">
+                <div class=""><svg width="" height="" 
+                    >
                     <use href="#icon_prev_sm" />
                   </svg></div>
-                <div class="swiper-button-next"><svg width="7" height="11" viewBox="0 0 7 11"
-                    xmlns="http://www.w3.org/2000/svg">
+                <div class=""><svg width="" height="" 
+                    >
                     <use href="#icon_next_sm" />
                   </svg></div>
               </div>
@@ -74,7 +74,7 @@
                 <div class="qty-control__reduce">-</div>
                 <div class="qty-control__increase">+</div>
               </div>
-              <button type="submit" class="btn btn-primary btn-addtocart js-open-aside" data-aside="cartDrawer">Add to Cart</button>
+              <button type="submit" class="btn btn-primary btn-addtocart " data-aside="cartDrawer">Add to Cart</button>
               <a href="{{ route('cart.index') }}" class="btn btn-outline-secondary ms-2">Xem giỏ hàng</a>
             </div>
           </form>
