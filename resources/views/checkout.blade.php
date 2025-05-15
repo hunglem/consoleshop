@@ -6,7 +6,7 @@
             <div class="col-lg-7">
                 <div class="checkout-form bg-white p-4 rounded shadow-sm mb-4">
                     <h2 class="mb-4"></h2>
-                    <form action="{{ route('order.place') }}" method="POST">
+                    <form action="{{ route('cart.placeOrder') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-md-6 mb-3">

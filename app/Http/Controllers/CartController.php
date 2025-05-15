@@ -59,52 +59,89 @@ class CartController extends Controller
     }
 
     public function placeOrder(Request $request)
-    {
-        $request->validate([
-            'payment_method' => 'required',
-        ]);
+   {
+        $user_id = Auth::id();
+        $address_id = Address::where('user_id', $user_id)->where('is_default', true)->first();
+        if (!$address_id) {
+            $request->validate([
+                'name' => 'required',
+                'phone' => 'required',
+                'address' => 'required',
+            ]);
+            $address = new Address();
+            $address->name = $request->name;
+            $address->phone = $request->phone;
+            $address->address = $request->address;
+            $address->user_id = $user_id;
+            $address->is_default = true;
+            $address->save();
 
-        $user = Auth::user();
-        $cartItems = \Surfsidemedia\Shoppingcart\Facades\Cart::content();
-        if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+            return redirect()->route('cart.order.Confirmation',compact('order'));
         }
+        $this->setAmountforCheckout();
 
-        // For simplicity, use the first address
-        $address = $user->address()->first();
-        if (!$address) {
-            return redirect()->route('cart.checkout')->with('error', 'Please add a shipping address.');
-        }
 
-        // Create order
-        $order = new \App\Models\order();
-        $order->status = 'order';
-        $order->shipping_address = $address->address;
-        $order->shipping_phone = $address->phone;
-        $order->shipping_email = $user->email;
-        $order->shipping_name = $address->name;
-        $order->users_id = $user->id;
+        $order = new Order();
+        $order->user_id = $user_id;
+        $order->total_price = Session::get('checkout')['total'];
+        $order->name = $address->name;
+        $order->phone = $address->phone;    
+        $order->address = $address->address;
         $order->save();
 
-        // Create order details
-        foreach ($cartItems as $item) {
-            $order->orderDetails()->create([
-                'product_id' => $item->id,
-                'price' => $item->price,
-                'quantity' => $item->qty,
-            ]);
+        foreach (Cart::content() as $item) {
+            $orderItem = new OrderItem();
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $item->id;
+            $orderItem->quantity = $item->qty;
+            $orderItem->price = $item->price;
+            $orderItem->save();
         }
 
-        // Create transaction
-        $order->transaction()->create([
-            'user_id' => $user->id,
-            'status' => 'pending',
-            'payment_method' => $request->payment_method,
+        $transaction = new Transaction();
+        $transaction->user_id = $user_id;
+        $transaction->order_id = $order->id;
+        $transaction->status = 'pending';
+        $transaction->payment_method = $request->payment_method;
+        $transaction->save();
+
+        Cart::instance('cart')->destroy();
+        Session::forget('checkout');
+        Session::put('order_id', $order->id);
+        return view('order_confirmation', compact('order'));
+
+   }
+   
+
+   public function setAmountforCheckout()
+   {
+    if(!Cart::instance('cart')->count() > 0)
+    {
+        Seession::forget('checkout');
+        return;
+    }
+    else
+    {
+        $cartItems = Cart::content();
+        $total = 0;
+        foreach($cartItems as $item)
+        {
+            $total += $item->price * $item->qty;
+        }
+        Session::put('checkout', [
+            'subtotal' => Cart::instance('cart')->subtotal(),
+            'tax' => Cart::instance('cart')->tax(),
+            'total' => Cart::instance('cart')->total(),
         ]);
-
-        // Clear cart
-        \Surfsidemedia\Shoppingcart\Facades\Cart::destroy();
-
-        return redirect()->route('home.index')->with('success', 'Order placed successfully!');
+    }
+   }
+    public function order_confirmation()
+    {   
+        if (Session::has('order_id')) {
+            $order = Session::find('order_id');
+            return view('order_confirmation', compact('order'));
+        }
+            
+        return redirect()->route('cart.index');
     }
 }
