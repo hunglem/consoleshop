@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('deliver_date')->nullable();
             $table->date('cancel_date')->nullable();
             $table->timestamps();
-            $foreignKey = $table->foreignId('users_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         });
     }
 

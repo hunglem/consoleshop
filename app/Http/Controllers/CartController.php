@@ -6,8 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Models\address;
 use App\Models\product;
+use App\Models\order;
+use App\Models\order_detail;
+use App\Models\transaction;
+use App\Models\User;
 
 class CartController extends Controller
 {
@@ -48,49 +53,46 @@ class CartController extends Controller
 
     public function checkout()
     {
-        if (!Auth::check()) 
-        {
+        if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Please login to proceed to checkout.');
-        } 
+        }
         $address = address::where('user_id', Auth::id())->get();
-        // Get cart items from the Cart package, not from session
-        $cartItems = \Surfsidemedia\Shoppingcart\Facades\Cart::content();
+        $cartItems = Cart::content();
         return view('checkout', compact('address', 'cartItems'));
     }
 
     public function placeOrder(Request $request)
-   {
+    {
         $user_id = Auth::id();
-        $address_id = Address::where('user_id', $user_id)->where('is_default', true)->first();
-        if (!$address_id) {
+        $address = address::where('user_id', $user_id)->where('is_default', true)->first();
+        if (!$address) {
             $request->validate([
-                'name' => 'required',
-                'phone' => 'required',
-                'address' => 'required',
+                'shipping_name' => 'required',
+                'shipping_phone' => 'required',
+                'shipping_address' => 'required',
             ]);
-            $address = new Address();
-            $address->name = $request->name;
-            $address->phone = $request->phone;
-            $address->address = $request->address;
+            $address = new address();
+            $address->name = $request->shipping_name;
+            $address->phone = $request->shipping_phone;
+            $address->address = $request->shipping_address;
             $address->user_id = $user_id;
             $address->is_default = true;
             $address->save();
-
-            return redirect()->route('cart.order.Confirmation',compact('order'));
         }
         $this->setAmountforCheckout();
 
-
-        $order = new Order();
+        $order = new order();
         $order->user_id = $user_id;
-        $order->total_price = Session::get('checkout')['total'];
-        $order->name = $address->name;
-        $order->phone = $address->phone;    
-        $order->address = $address->address;
+        $order->total_price = Session::get('checkout')['total'] ?? 0;
+        $order->shipping_name = $address->name;
+        $order->shipping_phone = $address->phone;
+        $order->shipping_address = $address->address;
+        $order->shipping_email = $request->shipping_email;
+        $order->shipping_note = $request->shipping_note;
         $order->save();
 
         foreach (Cart::content() as $item) {
-            $orderItem = new OrderItem();
+            $orderItem = new order_detail();
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $item->id;
             $orderItem->quantity = $item->qty;
@@ -98,7 +100,7 @@ class CartController extends Controller
             $orderItem->save();
         }
 
-        $transaction = new Transaction();
+        $transaction = new transaction();
         $transaction->user_id = $user_id;
         $transaction->order_id = $order->id;
         $transaction->status = 'pending';
@@ -108,40 +110,37 @@ class CartController extends Controller
         Cart::instance('cart')->destroy();
         Session::forget('checkout');
         Session::put('order_id', $order->id);
-        return view('order_confirmation', compact('order'));
-
-   }
-   
-
-   public function setAmountforCheckout()
-   {
-    if(!Cart::instance('cart')->count() > 0)
-    {
-        Seession::forget('checkout');
-        return;
+        return redirect()->route('cart.order.Confirmation');
     }
-    else
+
+    public function setAmountforCheckout()
     {
-        $cartItems = Cart::content();
-        $total = 0;
-        foreach($cartItems as $item)
-        {
-            $total += $item->price * $item->qty;
+        if (!Cart::instance('cart')->count() > 0) {
+            Session::forget('checkout');
+            return;
+        } else {
+            $cartItems = Cart::content();
+            $total = 0;
+            foreach ($cartItems as $item) {
+                $total += $item->price * $item->qty;
+            }
+            Session::put('checkout', [
+                'subtotal' => Cart::instance('cart')->subtotal(),
+                'tax' => Cart::instance('cart')->tax(),
+                'total' => Cart::instance('cart')->total(),
+            ]);
         }
-        Session::put('checkout', [
-            'subtotal' => Cart::instance('cart')->subtotal(),
-            'tax' => Cart::instance('cart')->tax(),
-            'total' => Cart::instance('cart')->total(),
-        ]);
     }
-   }
-    public function order_confirmation()
-    {   
+
+    public function orderConfirmation()
+    {
         if (Session::has('order_id')) {
-            $order = Session::find('order_id');
-            return view('order_confirmation', compact('order'));
+            $orderId = Session::get('order_id');
+            $order = order::with('transaction')->find($orderId);
+            if ($order) {
+                return view('order_Confirmation', compact('order'));
+            }
         }
-            
         return redirect()->route('cart.index');
     }
 }
