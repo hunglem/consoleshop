@@ -54,7 +54,7 @@
                     if ($item->attributes && isset($item->attributes->image) && !empty($item->attributes->image)) {
                         $image = $item->attributes->image;
                     } else {
-                        $image = asset('assets/images/products/product_0.jpg');
+                        $image = asset('assets/images/products/product_0.png');
                     }
                   @endphp
                   <tr>
