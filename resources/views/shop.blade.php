@@ -341,7 +341,7 @@
                                 width="330" height="400" alt="{{ $product->name }}" class="pc__img">
                         </a>
                         <button
-                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
+                            class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart "
                             data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                     </div>
                     <div class="pc__info position-relative" href="{{ $product->slug ? route('shop.product_details', ['product_slug' => $product->slug]) : '#' }}">

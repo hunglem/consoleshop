@@ -116,7 +116,7 @@
                                                         </span>
                                                         <span class="body-text">Drop your image here or <span
                                                                 class="tf-color">click to browse</span></span>
-                                                        <input type="file" id="myFile" name="image_name" accept="image/*">
+                                                        <input class="mb-10" type="file" id="myFile" name="image_name" accept="image/*">
                                                     </label>
                                                 </div>
                                             </div>
@@ -136,7 +136,7 @@
                                                 <div class="body-title mb-10">Quantity <span
                                                         class="tf-color-1">*</span></div>
                                                 <input class="mb-10" type="text" placeholder="Enter quantity"
-                                                    name="amount" tabindex="0" value="" aria-required="true"
+                                                    name="amount" tabindex="0" value="{{ old('amount') }}" aria-required="true"
                                                     required="">
                                             </fieldset>
                                             @error('quantity') <span class="text-danger">{{ $message }}</span> @enderror
@@ -198,7 +198,7 @@
             var slug = TEXT.toLowerCase();
             slug = slug.replace(/^\s+|\s+$/g, '');
             slug = slug.replace(/\s+/g, '-');
-            slug =.replace(/[^a-z0-9\-]/g, '');
+            slug = slug.replace(/[^a-z0-9\-]/g, '');
             return slug;
         }
     });

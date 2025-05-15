@@ -20,9 +20,9 @@ class CartController extends Controller
             'id' => $request->id,
             'name' => $request->name,
             'price' => $request->price,
-            'qty' => $request->quantity ?? 1, // changed from 'quantity' to 'qty'
+            'qty' => $request->quantity ?? 1,
             'attributes' => [
-                'image' => $request->image,
+                'image' => $request->image, // Always store the image path from the form
                 'slug' => $request->slug,
             ],
         ]);

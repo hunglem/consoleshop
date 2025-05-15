@@ -51,12 +51,10 @@
                     $itemSubtotal = $item->price * $item->qty;
                     $subtotal += $itemSubtotal;
                     $slug = $item->attributes && isset($item->attributes->slug) ? $item->attributes->slug : null;
-                    // Use uploaded product image if available, else fallback
                     if ($item->attributes && isset($item->attributes->image) && !empty($item->attributes->image)) {
-                        // If image is already a full URL (starts with http), use as is
-                        $image = (str_starts_with($item->attributes->image, 'http')) ? $item->attributes->image : asset('uploads/products/' . basename($item->attributes->image));
+                        $image = $item->attributes->image;
                     } else {
-                        $image = asset('assets/images/cart-item-1.jpg');
+                        $image = asset('assets/images/products/product_0.jpg');
                     }
                   @endphp
                   <tr>

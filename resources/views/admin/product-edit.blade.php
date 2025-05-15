@@ -111,7 +111,7 @@
                                                             <i class="icon-upload-cloud"></i>
                                                         </span>
                                                         <span class="body-text">Drop your image here or <span class="tf-color">click to browse</span></span>
-                                                        <input type="file" id="myFile" name="image_name" accept="image/*">
+                                                        <input class="mb-10" type="file" id="myFile" name="image_name" accept="image/*">
                                                     </label>
                                                 </div>
                                             </div>
