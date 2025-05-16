@@ -52,5 +52,10 @@ Route::middleware(['auth',AuthAdmin::class])->group(function () {
     Route::get('/admin/product/edit/{id}', [AdminController::class, 'edit_Product'])->name('admin.product.edit');
     Route::put('/admin/product/update/{id}', [AdminController::class, 'update_Product'])->name('admin.product.update');
     Route::delete('/admin/product/{id}/delete', [AdminController::class, 'delete_Product'])->name('admin.product.delete');
+
+    Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('/admin/order/details/{id}', [AdminController::class, 'orderDetails'])->name('admin.order.details');
+    Route::put('/admin/order/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.order.status.update');
+    
 });
 

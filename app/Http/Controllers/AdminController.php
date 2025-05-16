@@ -15,8 +15,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use Itervention\Image\Facades\Image;
 use App\Models\Product;
-
-
+use App\Models\Order;
 
 
 class AdminController extends Controller
@@ -25,10 +24,20 @@ class AdminController extends Controller
     {
         return view('admin.index');
     }
+
+    public function dashboard()
+    {
+        $totalOrders = Order::count();
+        $pendingOrders = Order::where('status', 'order')->count();
+        $deliveredOrders = Order::where('status', 'delivered')->count();
+        $cancelledOrders = Order::where('status', 'cancelled')->count();
+        
+        return view('admin.dashboard', compact('totalOrders', 'pendingOrders', 'deliveredOrders', 'cancelledOrders'));
+    }
     
     public function brands()
     {
-        $brands = Brand::paginate(10); // Paginate with 10 items per page
+        $brands = Brand::all();
         return view('admin.brands', compact('brands'));
     }
 
@@ -348,4 +357,33 @@ class AdminController extends Controller
 
         return redirect()->route('admin.products')->with('success', 'Product deleted successfully!');
     }
+
+    public function orders()
+    {
+        $orders = Order::with(['user', 'transaction'])->orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.orders', compact('orders'));
+    }
+
+    public function orderDetails($id)
+    {
+        $order = Order::with(['user', 'transaction', 'orderDetails.product'])->findOrFail($id);
+        return view('admin.order-details', compact('order'));
+    }
+
+    public function updateOrderStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = $request->status;
+        
+        if ($request->status === 'delivered') {
+            $order->deliver_date = now();
+        } elseif ($request->status === 'cancelled') {
+            $order->cancel_date = now();
+        }
+        
+        $order->save();
+        
+        return redirect()->back()->with('success', 'Order status updated successfully');
+    }
 }
+
