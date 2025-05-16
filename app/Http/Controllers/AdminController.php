@@ -22,7 +22,61 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        // Get basic order statistics
+        $totalOrders = Order::count();
+        $pendingOrders = Order::where('status', 'pending')->count();
+        $deliveredOrders = Order::where('status', 'delivered')->count();
+        $cancelledOrders = Order::where('status', 'cancelled')->count();
+
+        // Calculate monthly statistics for the current year
+        $monthlyStats = Order::selectRaw('MONTH(created_at) as month')
+            ->selectRaw('SUM(total_price) as total')
+            ->selectRaw('SUM(CASE WHEN status = "pending" THEN total_price ELSE 0 END) as pending')
+            ->selectRaw('SUM(CASE WHEN status = "delivered" THEN total_price ELSE 0 END) as delivered')
+            ->selectRaw('SUM(CASE WHEN status = "cancelled" THEN total_price ELSE 0 END) as cancelled')
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month')
+            ->get();
+
+        // Initialize arrays for the chart data
+        $chartData = [
+            'total' => array_fill(1, 12, 0),
+            'pending' => array_fill(1, 12, 0),
+            'delivered' => array_fill(1, 12, 0),
+            'cancelled' => array_fill(1, 12, 0)
+        ];
+
+        // Fill in actual data from the database
+        foreach ($monthlyStats as $stat) {
+            $month = $stat->month;
+            $chartData['total'][$month] = round($stat->total, 2);
+            $chartData['pending'][$month] = round($stat->pending, 2);
+            $chartData['delivered'][$month] = round($stat->delivered, 2);
+            $chartData['cancelled'][$month] = round($stat->cancelled, 2);
+        }
+
+        // Get recent orders
+        $recentOrders = Order::with(['user', 'orderDetails'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Calculate overall revenue
+        $totalRevenue = Order::where('status', 'delivered')->sum('total_price');
+        $orderGrowth = Order::whereMonth('created_at', date('m'))
+            ->whereYear('created_at', date('Y'))
+            ->count();
+
+        return view('admin.index', compact(
+            'totalOrders',
+            'pendingOrders', 
+            'deliveredOrders', 
+            'cancelledOrders',
+            'chartData',
+            'recentOrders',
+            'totalRevenue',
+            'orderGrowth'
+        ));
     }
 
     public function dashboard()
@@ -429,23 +483,31 @@ class AdminController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('search');
-        
-        $orders = Order::where('id', 'LIKE', "%$query%")
+        $query = $request->input('query');
+
+        // Search in orders
+        $orders = Order::where('id', 'LIKE', "%{$query}%")
+            ->orWhere('shipping_email', 'LIKE', "%{$query}%")
+            ->orWhere('shipping_phone', 'LIKE', "%{$query}%")
             ->orWhereHas('user', function($q) use ($query) {
-                $q->where('name', 'LIKE', "%$query%")
-                    ->orWhere('email', 'LIKE', "%$query%");
+                $q->where('name', 'LIKE', "%{$query}%");
             })
-            ->orWhere('shipping_phone', 'LIKE', "%$query%")
-            ->orWhere('shipping_address', 'LIKE', "%$query%")
+            ->with(['user', 'transaction'])
             ->paginate(10);
 
-        $products = Product::where('name', 'LIKE', "%$query%")
-            ->orWhere('description', 'LIKE', "%$query%")
-            ->orWhere('price', 'LIKE', "%$query%")
+        // Search in products
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->orWhereHas('category', function($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%");
+            })
+            ->orWhereHas('brand', function($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%");
+            })
+            ->with(['category', 'brand'])
             ->paginate(10);
 
-        return view('admin.search-results', compact('orders', 'products', 'query'));
+        return view('admin.search-results', compact('query', 'orders', 'products'));
     }
 }
 
