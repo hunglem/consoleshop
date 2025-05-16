@@ -123,32 +123,12 @@
                                                 <div class="text">Xem Đơn Hàng</div>
                                             </a>
                                         </li>
-                                        <li class="sub-menu-item">
-                                            <a href="order-tracking.html" class="">
-                                                <div class="text">Xem Đơn Đặt Hàng</div>
-                                            </a>
-                                        </li>
                                     </ul>
                                 </li>
-                                <li class="menu-item">
-                                    <a href="slider.html" class="">
-                                        <div class="icon"><i class="icon-image"></i></div>
-                                        <div class="text">Slider</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="users.html" class="">
-                                        <div class="icon"><i class="icon-user"></i></div>
-                                        <div class="text">Người Dùng</div>
-                                    </a>
-                                </li>
 
-                                <li class="menu-item">
-                                    <a href="settings.html" class="">
-                                        <div class="icon"><i class="icon-settings"></i></div>
-                                        <div class="text">Cài Đặt</div>
-                                    </a>
-                                </li>
+
+
+
 
                                 <li class="menu-item">
                                     <form method="POST" action="{{ route('logout') }}" id="logout-form">
@@ -178,132 +158,15 @@
                                 </div>
 
 
-                                <form class="form-search flex-grow">
+                                <form action="{{ route('admin.search') }}" method="GET" class="form-search flex-grow">
                                     <fieldset class="name">
-                                        <input type="text" placeholder="Search here..." class="show-search" name="name"
-                                            tabindex="2" value="" aria-required="true" required="">
+                                        <input type="text" placeholder="Search here..." class="show-search" name="search"
+                                            tabindex="2" value="{{ request('search') }}" aria-required="true" required="">
                                     </fieldset>
                                     <div class="button-submit">
-                                        <button class="" type="submit"><i class="icon-search"></i></button>
+                                        <button type="submit"><i class="icon-search"></i></button>
                                     </div>
-                                    <div class="box-content-search" id="box-content-search">
-                                        <ul class="mb-24">
-                                            <li class="mb-14">
-                                                <div class="body-title">Top selling product</div>
-                                            </li>
-                                            <li class="mb-14">
-                                                <div class="divider"></div>
-                                            </li>
-                                            <li>
-                                                <ul>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/17.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Dog Food
-                                                                    Rachael Ray Nutrish®</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/18.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Natural
-                                                                    Dog Food Healthy Dog Food</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/19.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Freshpet
-                                                                    Healthy Dog Food and Cat</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        <ul class="">
-                                            <li class="mb-14">
-                                                <div class="body-title">Order product</div>
-                                            </li>
-                                            <li class="mb-14">
-                                                <div class="divider"></div>
-                                            </li>
-                                            <li>
-                                                <ul>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/20.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Sojos
-                                                                    Crunchy Natural Grain Free...</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/21.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Kristin
-                                                                    Watson</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/22.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Mega
-                                                                    Pumpkin Bone</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/23.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Mega
-                                                                    Pumpkin Bone</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    
                                 </form>
 
                             </div>
@@ -311,13 +174,7 @@
 
                                 <div class="popup-wrap message type-header">
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span class="header-item">
-                                                <span class="text-tiny">1</span>
-                                                <i class="icon-bell"></i>
-                                            </span>
-                                        </button>
+                                        
                                         <ul class="dropdown-menu dropdown-menu-end has-content"
                                             aria-labelledby="dropdownMenuButton2">
                                             <li>
@@ -384,11 +241,9 @@
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="header-user wg-user">
-                                                <span class="image">
-                                                    <img src="images/avatar/user-1.png" alt="">
-                                                </span>
+                                    
                                                 <span class="flex flex-column">
-                                                    <span class="body-title mb-2">Kristin Watson</span>
+                                                    <span class="body-title mb-2">{{ Auth::user()->name }}</span>
                                                     <span class="text-tiny">Admin</span>
                                                 </span>
                                             </span>

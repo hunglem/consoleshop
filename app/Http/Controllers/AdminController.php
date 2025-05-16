@@ -374,6 +374,7 @@ class AdminController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->status = $request->status;
+        $order->last_modified_by = Auth::id();
         
         if ($request->status === 'delivered') {
             $order->deliver_date = now();
@@ -384,6 +385,67 @@ class AdminController extends Controller
         $order->save();
         
         return redirect()->back()->with('success', 'Order status updated successfully');
+    }
+
+    public function users()
+    {
+        $users = User::paginate(10);
+        return view('admin.users', compact('users'));
+    }
+
+    public function userEdit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.user-edit', compact('user'));
+    }
+
+    public function userUpdate(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'nullable|min:8|confirmed',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+        return redirect()->route('admin.users')->with('success', 'User updated successfully');
+    }
+
+    public function userDelete($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('admin.users')->with('success', 'User deleted successfully');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        
+        $orders = Order::where('id', 'LIKE', "%$query%")
+            ->orWhereHas('user', function($q) use ($query) {
+                $q->where('name', 'LIKE', "%$query%")
+                    ->orWhere('email', 'LIKE', "%$query%");
+            })
+            ->orWhere('shipping_phone', 'LIKE', "%$query%")
+            ->orWhere('shipping_address', 'LIKE', "%$query%")
+            ->paginate(10);
+
+        $products = Product::where('name', 'LIKE', "%$query%")
+            ->orWhere('description', 'LIKE', "%$query%")
+            ->orWhere('price', 'LIKE', "%$query%")
+            ->paginate(10);
+
+        return view('admin.search-results', compact('orders', 'products', 'query'));
     }
 }
 

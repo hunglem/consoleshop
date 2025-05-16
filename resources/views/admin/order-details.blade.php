@@ -33,6 +33,7 @@
                     <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="delivered" {{ $order->status === 'delivered' ? 'selected' : '' }}>Delivered</option>
                     <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                    
                 </select>
                 <button type="submit" class="btn btn-primary">Update Status</button>
             </form>
@@ -52,6 +53,7 @@
                     <p><strong>Order Date:</strong> {{ $order->created_at->format('M d, Y H:i') }}</p>
                     <p><strong>Payment Method:</strong> {{ ucfirst($order->transaction->payment_method) }}</p>
                     <p><strong>Payment Status:</strong> {{ ucfirst($order->transaction->status) }}</p>
+                    <p><strong>Last Modified By:</strong> {{ $order->lastModifiedBy ? $order->lastModifiedBy->name : 'N/A' }}</p>
                     @if($order->shipping_note)
                         <p><strong>Note:</strong> {{ $order->shipping_note }}</p>
                     @endif
